@@ -1,5 +1,7 @@
 import UIKit
 
+// MARK: - UI
+
 class InfoImageView: UIImageView {
     
     override init(frame: CGRect) {

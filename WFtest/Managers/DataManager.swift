@@ -1,6 +1,8 @@
 import Foundation
 
 class DataManager {
+    
+    // MARK: - Add favorites handler
 
 static var favList = [InfoData]()
 

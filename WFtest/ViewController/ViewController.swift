@@ -2,6 +2,8 @@ import UIKit
 import Network
 
 class ViewController: UITabBarController, UITabBarControllerDelegate {
+    
+    // MARK: - Set TabBarController
 
     private func loadTabBarController() {
         delegate = self
@@ -17,6 +19,8 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         appearance.setTitleTextAttributes(attributes, for: .normal)
     }
     
+    // MARK: - Controller cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         loadTabBarController()
@@ -28,6 +32,8 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         super.viewDidAppear(true)
         checkConnection()
     }
+    
+    // MARK: - Add methods
     
     private func setFavList() {
         guard let favList = UserDefaults.standard.value([InfoData].self, forKey: "favList") else {

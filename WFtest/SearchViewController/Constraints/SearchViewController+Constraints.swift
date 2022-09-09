@@ -1,5 +1,7 @@
 import UIKit
 
+// MARK: - Constraints
+
 extension SearchViewController {
     func addTextFieldConstraints() {
         var constraints = [NSLayoutConstraint]()

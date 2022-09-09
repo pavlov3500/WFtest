@@ -1,5 +1,7 @@
 import UIKit
 
+// MARK: - Cell UI
+
 class FavImageView:UIImageView {
     override init(frame: CGRect) {
         super.init(frame: frame)

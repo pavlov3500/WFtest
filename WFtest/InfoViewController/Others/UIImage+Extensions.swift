@@ -1,6 +1,8 @@
 import UIKit
 extension UIImage {
     
+    // MARK: - image add color method
+    
     func colorized(with color: UIColor = .white) -> UIImage {
             UIGraphicsBeginImageContextWithOptions(size, false, scale)
 
@@ -23,6 +25,8 @@ extension UIImage {
 
             return colored
         }
+    
+    // MARK: - image stroke color
     
     func stroked(with color: UIColor = .white, thickness: CGFloat = 2, quality: CGFloat = 10) -> UIImage {
         
