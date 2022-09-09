@@ -48,3 +48,8 @@ Thumbs.db
 *.mov
 *.wmv
 
+/WFtest.xcodeproj/xcuserdata/egorbelyaev.xcuserdatad/xcschemes/xcschememanagement.plist
+/WFtest.xcodeproj/xcuserdata/egorbelyaev.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
+/WFtest.xcodeproj/project.xcworkspace/xcuserdata/egorbelyaev.xcuserdatad/UserInterfaceState.xcuserstate
+/WFtest.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+/WFtest.xcodeproj/project.xcworkspace/contents.xcworkspacedata
