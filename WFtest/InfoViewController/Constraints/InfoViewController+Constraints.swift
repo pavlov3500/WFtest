@@ -1,5 +1,7 @@
 import UIKit
 
+// MARK: - Constraints
+
 extension InfoViewController {
     func addHeaderConstraints() {
         var constraints = [NSLayoutConstraint]()

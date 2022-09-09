@@ -1,5 +1,7 @@
 import UIKit
 
+// MARK: - Cell UI
+
 class SearchImageView:UIImageView {
     override init(frame: CGRect) {
         super.init(frame: frame)

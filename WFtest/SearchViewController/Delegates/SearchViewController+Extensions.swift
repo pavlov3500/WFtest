@@ -1,5 +1,7 @@
 import UIKit
 
+// MARK: - TextField Delegate
+
 extension SearchViewController:UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)
@@ -13,6 +15,8 @@ extension SearchViewController:UITextFieldDelegate {
         return true
     }
 }
+
+// MARK: - ScrollView Delegate
 
 extension SearchViewController:UIScrollViewDelegate {
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -32,6 +36,8 @@ extension SearchViewController:UIScrollViewDelegate {
         
     }
 }
+
+// MARK: - CollectionView Delegate
 
 extension SearchViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

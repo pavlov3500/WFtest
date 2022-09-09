@@ -1,6 +1,8 @@
 import UIKit
 import Kingfisher
 
+// MARK: - CollectionView cell
+
 class SearchCell: UICollectionViewCell {
     
     // MARK: - add UI and layout

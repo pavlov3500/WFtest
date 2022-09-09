@@ -1,5 +1,7 @@
 import UIKit
 
+// MARK: - UI
+
 class FavTableView:UITableView {
     
     override init(frame: CGRect, style: UITableView.Style) {

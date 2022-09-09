@@ -1,5 +1,7 @@
 import UIKit
 
+// MARK: - TableView Delegate
+
 extension FavViewController:UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return DataManager.favList.count

@@ -1,6 +1,8 @@
 import UIKit
 import SystemConfiguration
 
+// MARK: - Internet connection status checker
+
 class Reachability {
     public func isConnectedToNetwork() -> Bool {
         var zeroAddress = sockaddr_in()
@@ -29,6 +31,8 @@ class Reachability {
         return (isReachable && !needsConnection)
     }
 }
+
+// MARK: - Add global alert
 
 extension UIViewController {
     func getAlert(title: String, message: String, action: @escaping()->()) -> UIAlertController {

@@ -3,7 +3,7 @@ import Kingfisher
 
 class FavCell: UITableViewCell {
 
-    // MARK: - add UI and layout
+    // MARK: - TableView cell
     
     private let favImageView = FavImageView(frame: CGRect.zero)
     private let favLabel = FavLabel()
