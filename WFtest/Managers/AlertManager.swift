@@ -35,26 +35,26 @@ class Reachability {
 // MARK: - Add global alert
 
 extension UIViewController {
-    func getAlert(title: String, message: String, action: @escaping()->()) -> UIAlertController {
+    
+    func getAlert(title: String, message: String, action: @escaping()->()) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let alertOk = UIAlertAction(title: "Ok", style: .default) { (_) in
             action()
         }
         alert.addAction(alertOk)
-        return alert
+        present(alert, animated: true, completion: nil)
     }
     
-    func checkConnection() {
+    func checkConnection(action:Void) {
         !Reachability().isConnectedToNetwork()
-            ? present(getAlert(title: "No Internet Connection",
-                               message: "Please check your internet connection",
-                               action: {
-                                self.checkConnection()
-                               }),
-                      animated: true,
-                      completion: nil)
+            ? getAlert(title: "No Internet Connection",
+                       message: "Please check your internet connection",
+                       action: {[weak self] in
+                        action
+                       })
             : nil
     }
+    
 }
 
 
