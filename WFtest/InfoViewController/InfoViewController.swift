@@ -2,51 +2,43 @@ import UIKit
 import Kingfisher
 
 class InfoViewController: UIViewController {
-        
-    // MARK: - add UI and layout
     
-    let infoProfileImageView = InfoImageView(frame: CGRect.zero)
-    let infoName = InfoLabel()
-    let infoDownloads = InfoLabel()
-    let infoImageView = InfoImageView(frame: CGRect.zero)
-    let infoButton = InfoButton()
-    let infoLocation = InfoLabel()
-    let infoDate = InfoLabel()
+    var infoData = InfoData()
     
-    private func addViews() {
-        view.addSubview(infoProfileImageView)
-        view.addSubview(infoName)
-        view.addSubview(infoDownloads)
-        view.addSubview(infoImageView)
-        view.addSubview(infoButton)
-        view.addSubview(infoLocation)
-        view.addSubview(infoDate)
+    convenience init() {
+        self.init(infoData: InfoData())
     }
     
-    private func addConstraints() {
-        addHeaderConstraints()
-        addImageViewConstraints()
-        addLabelConstraints()
+    init(infoData: InfoData?) {
+        self.infoData = infoData ?? InfoData()
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - add UI and layout
+    
+    let infoView = InfoViewControllerUIView()
+    
+    override func loadView() {
+        self.view = infoView
     }
         
     // MARK: - add properties
-    
-    var infoData = InfoData() {
-        didSet {
-            configure(data: infoData)
-        }
-    }
-    
+        
     private let selected = UIImage(named: "heart")
     private let normal = UIImage(named: "heart")?
                                     .colorized(with: .white)
                                     .stroked(with: .black, thickness: 15, quality: 1)
     private var isLiked = false {
         didSet {
-            infoButton.setImage(isLiked ? selected : normal , for: .normal)
-            self.infoButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+            infoView.infoButton.setImage(isLiked ? selected : normal , for: .normal)
+            self.infoView.infoButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
             UIView.animate(withDuration: 0.08, delay: 0, options: .curveLinear) {
-                self.infoButton.transform = CGAffineTransform(scaleX: 1, y: 1)
+                self.infoView.infoButton.transform = CGAffineTransform(scaleX: 1, y: 1)
             }
         }
         
@@ -57,11 +49,9 @@ class InfoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        infoImageView.backgroundColor = .lightGray
-        addViews()
-        addConstraints()
         isLiked = DataManager.favList.contains(where: {$0.id == infoData.id}) ? true : false
-        infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        infoView.infoButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        configure(data: infoData)
     }
     
     // MARK: - Add methods
@@ -69,24 +59,24 @@ class InfoViewController: UIViewController {
     func configure(data:InfoData) {
         if let url = URL(string: data.user?.profile_image?.medium ?? "") {
             let profileResource = ImageResource(downloadURL: url, cacheKey: data.user?.profile_image?.medium)
-            DispatchQueue.main.async {
-                self.infoProfileImageView.kf.setImage(with: profileResource)
+            DispatchQueue.main.async {[weak self] in
+                self?.infoView.infoProfileImageView.kf.setImage(with: profileResource)
             }
         }
         
         guard let url = URL(string: data.urls?.regular ?? "") else {return}
         let resource = ImageResource(downloadURL: url)
         let options: KingfisherOptionsInfo = [.memoryCacheExpiration(.expired), .diskCacheExpiration(.expired)]
-        infoImageView.kf.indicatorType = .activity
-        DispatchQueue.main.async {
-            self.infoImageView.kf.setImage(with: resource, placeholder: .none, options: options)
+        infoView.infoImageView.kf.indicatorType = .activity
+        DispatchQueue.main.async {[weak self] in
+            self?.infoView.infoImageView.kf.setImage(with: resource, placeholder: .none, options: options)
         }
         if let text = data.user?.username {
-            infoName.font = .boldSystemFont(ofSize: 17)
-            infoName.text = text
+            infoView.infoName.font = .boldSystemFont(ofSize: 17)
+            infoView.infoName.text = text
         }
         if let text = data.user?.location {
-            infoLocation.text = text
+            infoView.infoLocation.text = text
         }
         if let text = data.created_at {
             let formatter = DateFormatter()
@@ -95,10 +85,10 @@ class InfoViewController: UIViewController {
             let date = formatter.date(from: text)
             formatter.dateFormat = "dd MMMM yyyy"
             let time = formatter.string(from: date ?? Date())
-            infoDate.text = time
+            infoView.infoDate.text = time
         }
         if let text = data.downloads {
-            infoDownloads.text = "\(text) downloads"
+            infoView.infoDownloads.text = "\(text) downloads"
         }
     }
     
@@ -119,8 +109,10 @@ class InfoViewController: UIViewController {
     
     @objc func buttonPressed() {
         isLiked.toggle()
-        DataManager.setFavList() {
-            self.reloadFavList()
+        DataManager.setFavList() {[weak self] in
+            DispatchQueue.main.async {
+                self?.reloadFavList()
+            }
         }
     }
     

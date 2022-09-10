@@ -30,7 +30,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        checkConnection()
+        checkConnection(action: ())
     }
     
     // MARK: - Add methods

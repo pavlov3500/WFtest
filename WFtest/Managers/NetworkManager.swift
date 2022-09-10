@@ -13,7 +13,7 @@ class NetworkManager {
     
     // MARK: - Search request
     
-    func getSearch(per_page: Int, page: Int, search: String, completion: @escaping(SearchData)->()) {
+    func getSearch(per_page: Int, page: Int, search: String, completion: @escaping(Result<SearchData,AFError>)->()) {
         
         let params: Parameters = [
             "page":"\(page)",
@@ -27,19 +27,27 @@ class NetworkManager {
                    method: .get,
                    parameters: params,
                    encoding: URLEncoding.default,
-                   headers: headers).responseDecodable(of: SearchData.self) { (response) in
+                   headers: headers).responseDecodable (of: SearchData.self) { (response) in
+                    guard response.error == nil else {
+                        if let error = response.error {
+                            print("\(response.error?.errorDescription ?? "")")
+                            completion(.failure(error))
+                        }
+                        return
+                    }
+                    
                     switch response.result {
                     case .success(let data):
-                        completion(data)
+                        completion(.success(data))
                     case .failure(let error):
-                        print(error)
+                        completion(.failure(error))
                     }
                    }
     }
     
     // MARK: - Info request
     
-    func getInfo(id: String, completion: @escaping(InfoData)->()) {
+    func getInfo(id: String, completion: @escaping(Result<InfoData,AFError>)->()) {
         
         let headers:HTTPHeaders = [
             "Authorization":"Client-ID zXHvfBZrAl1xg-T-tFqXIoZhVM9U1mxNUfcu1n7auGM"]
@@ -49,11 +57,19 @@ class NetworkManager {
                    parameters: .none,
                    encoding: URLEncoding.default,
                    headers: headers).responseDecodable(of: InfoData.self) { (response) in
+//                    guard response.error == nil else {
+//                        if let error = response.error {
+//                            print("\(response.error?.errorDescription ?? "")")
+//                            completion(.failure(error))
+//                        }
+//                        return
+//                    }
+                    
                     switch response.result {
                     case .success(let data):
-                        completion(data)
+                        completion(.success(data))
                     case .failure(let error):
-                        print(error)
+                        completion(.failure(error))
                     }
                    }
     }
